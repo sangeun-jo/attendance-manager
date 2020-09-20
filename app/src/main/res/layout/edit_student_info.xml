@@ -1,0 +1,188 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp" >
+
+    <TextView
+        android:id="@+id/textviewLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="출결 정보 수정"
+        android:textColor="#000000"/>
+
+    <LinearLayout
+        android:layout_below="@id/textviewLogo"
+        android:id="@+id/checkAttandance"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:gravity="center">
+
+
+        <RadioGroup
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/state1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="출석">
+            </RadioButton>
+            <RadioButton
+                android:id="@+id/state2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지각">
+            </RadioButton>
+            <RadioButton
+                android:id="@+id/state3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="무단">
+            </RadioButton>
+            <RadioButton
+                android:id="@+id/state4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="예고">
+            </RadioButton>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/input_late_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/checkAttandance"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textviewEmailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="오늘 지각"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/late_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_weight="4"/>
+        <requestFocus/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="분"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/edit_wrong_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/input_late_time"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="틀린 단어"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/wrong_word_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="개"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/today_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/edit_wrong_word"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="오늘 입금"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id='@+id/today_input_money'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="원"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/today_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="초기화"/>
+
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="확인"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

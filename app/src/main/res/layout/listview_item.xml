@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="##.##.##"
+            android:id="@+id/date"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            tools:ignore="RtlCompat"/>
+
+        <TextView
+            android:id="@+id/student_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="홍길동"
+            android:textSize="24dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출석"
+            android:id="@+id/student_state"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            tools:ignore="RtlCompat" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fine"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:gravity="center_vertical"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="틀린단어 개수: n개"
+            android:id="@+id/wrong_words"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="미납: 12000원"
+            android:id="@+id/debt"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:gravity="center_vertical"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>
