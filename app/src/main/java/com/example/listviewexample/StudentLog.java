@@ -181,10 +181,17 @@ public class StudentLog extends AppCompatActivity {
 
                 adapter.setListViewItemList(studentInfoList);
                 adapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
 
+            @Override
+            public void backBtn(){
                 dialog.dismiss();
             }
         });
+
+
+
 
         dialog.show();
     }

@@ -8,11 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +28,8 @@ import java.util.Locale;
 // 앱 실행 시 인트로 만들기
 // 디자인 수정
 // 틀린 단어 개수 > 틀린 개수로 만들기
-
+//다이얼로그 중복됨. 단순화 할 수 있는지 알아보기
+//다른 곳을 눌렀을 때 닫히지 않도록 하기
 
 // 만든 계기
 // 스터디 모임에서 출결 관리를 쉽게 하기 위하여 만들었습니다.
@@ -239,6 +237,7 @@ public class MainActivity extends AppCompatActivity{
                 );
                 adapter.setListViewItemList(studentInfoList);
                 adapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
 
             @Override
@@ -261,11 +260,18 @@ public class MainActivity extends AppCompatActivity{
 
                 adapter.setListViewItemList(studentInfoList);
                 adapter.notifyDataSetChanged();
-                dialog.dismiss(); //이게 뭐지??
+                dialog.dismiss();
+            }
+
+            @Override
+            public void backBtn() {
+                dialog.dismiss();
             }
 
 
         });
+
+
 
         dialog.show();
     }
@@ -290,4 +296,5 @@ public class MainActivity extends AppCompatActivity{
         builder.setNegativeButton("취소", null);
         builder.create().show();
     }
+
 }
