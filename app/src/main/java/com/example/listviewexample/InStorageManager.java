@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -24,7 +25,46 @@ public class InStorageManager {
         this.contextView = contextView;
     }
 
-    // 학생 이름을 내부 저장소에 추가
+    /*
+    public void changeFine(String fine) {
+        try {
+            FileOutputStream fos= contextView.openFileOutput("Fine.txt", Context.MODE_APPEND);
+            PrintWriter writer= new PrintWriter(fos);
+
+            writer.write(fine);
+            writer.close();
+
+            Toast.makeText(contextView, "벌금이 변경되었습니다.", Toast.LENGTH_SHORT).show();
+
+        } catch (FileNotFoundException e) {e.printStackTrace();}
+
+    }
+
+    // 벌금 로드
+    public int loadFine() {
+        String fine = "";
+        try {
+            FileInputStream fileInputStream = contextView.openFileInput("Fine.txt"); //Data.txt 파일 열기
+            InputStreamReader isr= new InputStreamReader(fileInputStream);
+            BufferedReader reader= new BufferedReader(isr);
+
+            //학생 이름을 한줄씩 읽어서 studentList 에 추가
+            fine = reader.readLine();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int ifine = Integer.parseInt(fine);
+
+        return ifine;
+    }
+
+   
+     */
+   // 학생 이름을 내부 저장소에 추가
     public void addStudent(String studentName) {
         try {
             FileOutputStream fos= contextView.openFileOutput("StudentNames.txt", Context.MODE_APPEND);

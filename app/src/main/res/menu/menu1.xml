@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/change_fain"
+        android:title="벌금 액수 변경" />
+
+    <item
+        android:id="@+id/export"
+        android:title="엑셀로 데이터 내보내기" />
+
+    <item
+        android:id="@+id/reset"
+        android:title="데이터 초기화" />
+
+    <item
+        android:id="@+id/howtouse"
+        android:title="사용법" />
+
+</menu>

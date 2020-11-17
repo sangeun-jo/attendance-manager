@@ -99,4 +99,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return todayStudentList;
     }
+
+    public void changeFine(int fine){
+        //벌금 레이블 찾아서 변경
+    }
 }

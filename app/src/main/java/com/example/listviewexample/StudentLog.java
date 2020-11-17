@@ -31,7 +31,6 @@ public class StudentLog extends AppCompatActivity {
 
     final static String dbName = "students.db";
     final static int dbVersion = 2;
-    int fineForWord = 100;
 
     ListView listView;
     ListViewAdapter adapter;
@@ -39,11 +38,13 @@ public class StudentLog extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     String name;
 
+    int fineForWord = 100;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_log);
-
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");

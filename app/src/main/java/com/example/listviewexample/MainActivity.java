@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ import java.util.Locale;
 //다이얼로그 중복됨. 단순화 할 수 있는지 알아보기
 //다른 곳을 눌렀을 때 닫히지 않도록 하기
 
+
 // 만든 계기
 // 스터디 모임에서 출결 관리를 쉽게 하기 위하여 만들었습니다.
 // 개인적으로 사용하기 위해 만들었지만 혹시 필요한 기능이나 건의 사항이 있으시면 아래 메일로 문의해주시기 바랍니다.
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity{
 
     ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    InStorageManager ism = new InStorageManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,8 +275,6 @@ public class MainActivity extends AppCompatActivity{
 
         });
 
-
-
         dialog.show();
     }
 
@@ -295,6 +297,36 @@ public class MainActivity extends AppCompatActivity{
         });
         builder.setNegativeButton("취소", null);
         builder.create().show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu1, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.change_fain:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("벌금 액수 변경");
+                final EditText et = new EditText(MainActivity.this);
+                builder.setView(et);
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String fine = et.getText().toString();
+                        //액수 변경 함수
+                        ism.changeFine(fine);
+                    }
+                });
+                builder.setNegativeButton("취소", null);
+                builder.create().show();
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
