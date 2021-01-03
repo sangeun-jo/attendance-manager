@@ -25,7 +25,7 @@ public class InStorageManager {
         this.contextView = contextView;
     }
 
-    /*
+
     public void changeFine(String fine) {
         try {
             FileOutputStream fos= contextView.openFileOutput("Fine.txt", Context.MODE_APPEND);
@@ -63,7 +63,7 @@ public class InStorageManager {
     }
 
    
-     */
+
    // 학생 이름을 내부 저장소에 추가
     public void addStudent(String studentName) {
         try {

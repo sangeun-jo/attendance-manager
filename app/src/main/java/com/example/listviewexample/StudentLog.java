@@ -3,6 +3,7 @@ package com.example.listviewexample;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.widget.AdapterView;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,13 +39,18 @@ public class StudentLog extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     String name;
 
-    int fineForWord = 100;
-
+    int fineForWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_log);
+
+
+        //저장된 값을 불러오기 위해 같은 네임파일을 찾음.
+        SharedPreferences sf = getSharedPreferences("Fine", MODE_PRIVATE);
+        //fine라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 100을 반환
+        fineForWord = sf.getInt("fine",100);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
@@ -108,8 +114,8 @@ public class StudentLog extends AppCompatActivity {
     }
 
     public void modifyStudent(final int i) {
-        final inputStudentInfo dialog = new inputStudentInfo(this);
-        dialog.setDialogListener(new inputStudentInfo.myListener() {
+        final InputStudentInfo dialog = new InputStudentInfo(this);
+        dialog.setDialogListener(new InputStudentInfo.myListener() {
 
             @Override
             public void onPositiveClicked(int state, int late, int word, int money) {
@@ -142,7 +148,7 @@ public class StudentLog extends AppCompatActivity {
 
                 if(word >= 0 ) {
                     studentInfoList.get(i).setWrongWords(word);
-                    studentInfoList.get(i).setFine(studentInfoList.get(i).getFine() +  studentInfoList.get(i).getWrongWords() * 100);
+                    studentInfoList.get(i).setFine(studentInfoList.get(i).getFine() +  studentInfoList.get(i).getWrongWords() * fineForWord);
                 }
 
                 if(money >= 0) {
@@ -161,6 +167,7 @@ public class StudentLog extends AppCompatActivity {
 
                 adapter.setListViewItemList(studentInfoList);
                 adapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
             @Override
             public void onNegativeClicked() { //초기화
@@ -190,10 +197,6 @@ public class StudentLog extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
-
-
-
         dialog.show();
     }
 

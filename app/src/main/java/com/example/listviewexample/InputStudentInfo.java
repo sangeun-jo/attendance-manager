@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class inputStudentInfo extends Dialog implements View.OnClickListener{
+public class InputStudentInfo extends Dialog implements View.OnClickListener{
 
     private EditText lateTime;
     private EditText wrongWord;
@@ -25,7 +25,7 @@ public class inputStudentInfo extends Dialog implements View.OnClickListener{
 
     private myListener myListener;
 
-    public inputStudentInfo(Context context) {
+    public InputStudentInfo(Context context) {
         super(context);
         this.context = context;
     }
@@ -114,7 +114,7 @@ public class inputStudentInfo extends Dialog implements View.OnClickListener{
 
             case R.id.imageButton:
                 myListener.backBtn();
-                dismiss(); //얘는 왜 있지?
+                dismiss();
                 break;
         }
     }

@@ -100,6 +100,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return todayStudentList;
     }
 
+    //학생 이름 리스트 불러오기
+    public ArrayList<String> getNameList(){
+        ArrayList<String> stuStrList = new ArrayList<>();
+
+        // names 테이블에서 이름 불러오기
+        SQLiteDatabase db = getReadableDatabase(); //db 열기
+        String sql = "SELECT * FROM names;";
+        Cursor cursor = db.rawQuery(sql, null);
+        while(cursor.moveToNext()){
+            String name = cursor.getString(0);
+            stuStrList.add(name);
+        }
+
+        cursor.close();
+        db.close();
+        return stuStrList;
+    }
+
+
     public void changeFine(int fine){
         //벌금 레이블 찾아서 변경
     }
