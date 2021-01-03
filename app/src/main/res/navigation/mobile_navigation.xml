@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.attandentmanager.ui.home.HomeFragment"
+        android:label="오늘 출결"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_last"
+        android:name="com.example.attandentmanager.ui.last.LastFragment"
+        android:label="이전출결"
+        tools:layout="@layout/fragment_last" />
+
+
+    <fragment
+        android:id="@+id/nav_member"
+        android:name="com.example.attandentmanager.ui.member.MemberFragment"
+        android:label="멤버"
+        tools:layout="@layout/fragment_member" />
+
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.example.attandentmanager.ui.setting.SettingFragment"
+        android:label="설정"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/nav_howtouse"
+        android:name="com.example.attandentmanager.ui.howtouse.HowToUseFragment"
+        android:label="@string/menu_howtouse"
+        tools:layout="@layout/fragment_howtouse" />
+</navigation>
