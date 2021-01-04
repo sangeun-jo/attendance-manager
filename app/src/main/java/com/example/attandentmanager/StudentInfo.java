@@ -16,6 +16,8 @@ public class StudentInfo {
     private int fine = 0;
     private int debt = 0;
 
+    public StudentInfo(){}
+
     public StudentInfo(String date, String name, int state, int late, int word, int fine, int debt){
         this.date = date;
         this.name = name;
@@ -39,6 +41,8 @@ public class StudentInfo {
     public void setLateMinutes(int m){
         lateMinutes = m;
     }
+
+    public void setDate(String date){this.date = date; }
 
     public void setFine(int fine){ this.fine = fine; }
 
@@ -66,4 +70,6 @@ public class StudentInfo {
 
     public int getDebt(){ return debt; }
 
+    public void chageLateMinutes(int i) {
+    }
 }

@@ -46,9 +46,9 @@ public class AttendListViewAdapter extends BaseAdapter {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         //TextView date = convertView.findViewById(R.id.date);
         TextView studentName = convertView.findViewById(R.id.student_name) ;
-        TextView studentState = convertView.findViewById(R.id.student_state);
-        //TextView wrongWords = convertView.findViewById(R.id.wrong_words);
-        //TextView fine = convertView.findViewById(R.id.fine);
+        TextView studentState = convertView.findViewById(R.id.state);
+        TextView wrongWords = convertView.findViewById(R.id.word);
+        TextView fine = convertView.findViewById(R.id.fine);
         //TextView debt = convertView.findViewById(R.id.debt);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
@@ -63,16 +63,16 @@ public class AttendListViewAdapter extends BaseAdapter {
         } else if(listViewItem.getState() == 2){
             studentState.setText("지각: " + listViewItem.getLateMinutes() + "분");
         } else if(listViewItem.getState() == 3){
-            studentState.setText("결석");
+            studentState.setText("무단결석");
         } else if(listViewItem.getState() == 4){
             studentState.setText("예고결석");
         } else {
             studentState.setText("미체크");
         }
 
-        //wrongWords.setText("틀린 단어 개수: " + listViewItem.getWrongWords());
+        wrongWords.setText(listViewItem.getWrongWords() +"개");
 
-        //fine.setText("벌금: " + listViewItem.getFine() + "원");
+        fine.setText(listViewItem.getFine() + "원");
         //debt.setText("입금: " + listViewItem.getDebt() + "원");
 
         return convertView;

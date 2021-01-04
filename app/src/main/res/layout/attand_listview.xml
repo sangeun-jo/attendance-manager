@@ -4,7 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_weight="4"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/student_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="홍길동"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textColor="#000000"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        tools:ignore="RtlCompat" />
+
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="출석"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="#666666"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        tools:ignore="RtlCompat" />
+
+    <TextView
+        android:id="@+id/word"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="2"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="#2196F3"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        tools:ignore="RtlCompat" />
+
+    <TextView
+        android:id="@+id/fine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="200"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="#E91E63"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        tools:ignore="RtlCompat" />
+
+    <!--
 
     <LinearLayout
         android:orientation="vertical"
@@ -67,6 +119,6 @@
 
 
     </LinearLayout>
-
+    -->
 
 </LinearLayout>

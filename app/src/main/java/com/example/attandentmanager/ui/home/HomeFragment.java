@@ -1,6 +1,7 @@
 package com.example.attandentmanager.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,17 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.attandentmanager.AttendListViewAdapter;
 import com.example.attandentmanager.DBHelper;
-import com.example.attandentmanager.MainActivity;
 import com.example.attandentmanager.R;
 import com.example.attandentmanager.StudentInfo;
-import com.example.attandentmanager.StudentProfile;
 import com.example.attandentmanager.TodayAttend;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +30,7 @@ import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
+    int index;
     String today;
     ListView listView;
     AttendListViewAdapter adapter;
@@ -41,8 +38,8 @@ public class HomeFragment extends Fragment {
 
     DBHelper dbHelper;
 
-    Menu myMenu;
-    MenuInflater myInflater;
+    SharedPreferences fine;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,13 +56,6 @@ public class HomeFragment extends Fragment {
 
         studentInfoList = dbHelper.loadTodayAttend(today);
 
-        //StudentInfo student = new StudentInfo(today, "조상은", 0, 0, 0,0, 0);
-        //StudentInfo student2 = new StudentInfo(today, "홍길동", 0, 0, 0,0, 0);
-        //studentInfoList.add(student);
-        //studentInfoList.add(student2);
-
-        // 화면에 뿌리기
-
         //어댑터
         adapter = new AttendListViewAdapter(studentInfoList);
         listView = rootView.findViewById(R.id.listview1);
@@ -76,7 +66,10 @@ public class HomeFragment extends Fragment {
                 //새 액티비티 열기
                 Intent intent = new Intent(getActivity(), TodayAttend.class);
                 intent.putExtra("name", studentInfoList.get(i).getName());
-                startActivity(intent);
+                intent.putExtra("today", today);
+                index = i;
+                //HomeFragment hf = new HomeFragment();
+                startActivityForResult(intent, 1000);
             }
         });
 
@@ -98,7 +91,7 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.select_student :
-                //옵션메뉴 일시적으로 바꾸기...
+                //옵션메뉴 일시적으로 바꾸기
                 //myInflater.inflate(R.menu.main, myMenu);
                 //Toast.makeText(getActivity(), "학생 선택", Toast.LENGTH_SHORT).show();
 
@@ -111,6 +104,87 @@ public class HomeFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateList(int state, int late, int word, int money){
+        insertDB(index, state, late, word, money);
+        adapter.setListViewItemList(studentInfoList);
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public void insertDB(int i, int state, int late, int word, int money) {
+
+        fine = getActivity().getSharedPreferences("Fine", getActivity().MODE_PRIVATE); //저장된 벌금 파일
+
+        int fineForWord = fine.getInt("fineForWord", 100);
+        int fineForLate = fine.getInt("fineForLate", 100);
+        int free_absent = fine.getInt("free_absent", 10000);
+        int plan_absent = fine.getInt("plan_absent", 0);
+
+        studentInfoList.get(i).setDate(today);
+        if (state == 1) { //출석
+            //지각 에딧창 비활성화
+            studentInfoList.get(i).changeState(1);
+            studentInfoList.get(i).chageLateMinutes(0);
+            studentInfoList.get(i).setFine((studentInfoList.get(i).getLateMinutes() + studentInfoList.get(i).getWrongWords()) * fineForWord);
+        } else if (state == 2) { //지각
+            // 지각 에딧창 활성화
+            if (late >= 0) { // 0 이상 입력되면
+                studentInfoList.get(i).changeState(2);
+                studentInfoList.get(i).setLateMinutes(late);
+                studentInfoList.get(i).setFine(studentInfoList.get(i).getFine() + studentInfoList.get(i).getLateMinutes() * fineForLate);
+            }
+        } else if (state == 3) { //무단결
+            studentInfoList.get(i).changeState(3);
+            studentInfoList.get(i).setLateMinutes(0);
+            studentInfoList.get(i).setWrongWords(0);
+            studentInfoList.get(i).setFine(free_absent);
+        } else { //예고 결
+            //모든 입력창 비활성화
+            studentInfoList.get(i).changeState(4);
+            studentInfoList.get(i).setLateMinutes(0);
+            studentInfoList.get(i).setWrongWords(0);
+            studentInfoList.get(i).setFine(0);
+            studentInfoList.get(i).setDebt(plan_absent);
+        }
+
+        if (word >= 0) {
+            studentInfoList.get(i).setWrongWords(word);
+            studentInfoList.get(i).setFine(studentInfoList.get(i).getFine() + studentInfoList.get(i).getWrongWords() * fineForWord);
+        }
+
+        if (money >= 0) {
+            studentInfoList.get(i).setDebt(money); //납입 금액
+        }
+
+        dbHelper.modifyAttend(
+                studentInfoList.get(i).getDate(),
+                studentInfoList.get(i).getName(),
+                studentInfoList.get(i).getState(),
+                studentInfoList.get(i).getLateMinutes(),
+                studentInfoList.get(i).getWrongWords(),
+                studentInfoList.get(i).getFine(),
+                studentInfoList.get(i).getDebt()
+        );
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1000 && resultCode == 03){
+            // System.out.println("프레그먼트에서 응답수신!!!");
+
+            int state = data.getIntExtra("state", 0);
+            int late = data.getIntExtra("late", 0);
+            int word = data.getIntExtra("word", 0);
+            int money = data.getIntExtra("money", 0);
+
+            insertDB(index, state, late, word, money);
+            adapter.setListViewItemList(studentInfoList);
+            adapter.notifyDataSetChanged();
+
+        }
     }
 
 }

@@ -3,50 +3,142 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".attend_check">
+    android:layout_height="wrap_content"
+    tools:context=".TodayAttend">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
 
-        <RadioGroup
-            android:id="@+id/radioGroup1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_margin ="10dp">
+
+                <RadioButton
+                    android:id="@+id/attend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="출석"
+                    android:textSize="45px"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/late"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="지각"
+                    android:textSize="45px"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/ab_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="무단 결석"
+                    android:textSize="45px"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/ab_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="예고 결석"
+                    android:textSize="45px"
+                    android:layout_weight="1"/>
+
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginVertical="20dp">
+            android:layout_marginVertical="10dp">
 
-            <RadioButton
-                android:id="@+id/radio0"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="출석"
-                android:layout_marginHorizontal="10dp"/>
+                android:layout_weight="1"
+                android:text="틀린단어 개수: "
+                android:textSize="40px"
+                android:textAlignment="center">
 
-            <RadioButton
-                android:id="@+id/radio1"
-                android:layout_width="wrap_content"
+            </TextView>
+            <EditText
+                android:id="@+id/wrong_word"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="지각" />
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:layout_weight="2"/>
+        </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/radio2"
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="무단 결석" />
+                android:layout_weight="1"
+                android:text="지각 시간(분): "
+                android:textSize="40px"
+                android:textAlignment="center">
 
-            <RadioButton
-                android:id="@+id/radio3"
-                android:layout_width="wrap_content"
+            </TextView>
+            <EditText
+                android:id="@+id/late_time"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="예고 결석" />
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:layout_weight="2"/>
+        </LinearLayout>
 
-        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="오늘 수금 : "
+                android:textSize="40px"
+                android:textAlignment="center">
+
+            </TextView>
+            <EditText
+                android:id="@+id/input_fine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:layout_weight="2"/>
+        </LinearLayout>
+
+
     </LinearLayout>
-
 
 </LinearLayout>
