@@ -2,24 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_menu_camera"
-        android:title="Search"
-        app:showAsAction="ifRoom"/>
-        -->
-
-    <item
-        android:id="@+id/add_student"
-        android:orderInCategory="100"
-        android:title="학생 추가"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_student"
         android:orderInCategory="100"
         android:title="학생 삭제"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/add_student"
+        android:orderInCategory="100"
+        android:title="학생 추가"
         app:showAsAction="never" />
 
 

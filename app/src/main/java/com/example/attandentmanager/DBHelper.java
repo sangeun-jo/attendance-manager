@@ -19,12 +19,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE attend (date TEXT, name TEXT, state INTEGER, late INTEGER, word INTEGER, fine INTEGER, debt INTEGER);");
         db.execSQL("CREATE TABLE profile (regiDate TEXT, name TEXT);");
+        db.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS attend");
         db.execSQL("DROP TABLE IF EXISTS profile");
+        db.close();
     }
 
     public void insertAttend(String date, String name, int state, int late, int word, int fine, int debt){
@@ -138,7 +140,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // 오늘 출석 데이터 반환
     public ArrayList<StudentInfo>loadTodayAttend(String today){
 
-
+        Cursor cursor = null;
         ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
         ArrayList<StudentProfile> pro = loadProfile();
 
@@ -146,7 +148,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         for(int i = 0; i < pro.size() ; i++){
             String sql = "SELECT * FROM attend WHERE (date = ? and name = ?);";
-            Cursor cursor = db.rawQuery(sql, new String[] {today, pro.get(i).getName()});
+
+
+            if(cursor != null && cursor.isClosed()){
+                cursor.close();
+            }
+            cursor = db.rawQuery(sql, new String[] {today, pro.get(i).getName()});
             if(cursor.getCount() <= 0) {
                 insertAttend(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
                 StudentInfo student = new StudentInfo(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
@@ -163,6 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             cursor.close();
         }
+
         db.close();
 
         return studentInfoList;

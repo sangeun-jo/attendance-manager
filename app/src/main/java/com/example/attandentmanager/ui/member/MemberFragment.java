@@ -1,16 +1,21 @@
 package com.example.attandentmanager.ui.member;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +29,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.attandentmanager.AttendListViewAdapter;
 import com.example.attandentmanager.DBHelper;
+import com.example.attandentmanager.MainActivity;
 import com.example.attandentmanager.MemberListViewAdapter;
 import com.example.attandentmanager.R;
 import com.example.attandentmanager.StudentInfo;
@@ -41,6 +47,7 @@ public class MemberFragment extends Fragment {
     DBHelper dbHelper;
     ArrayList<StudentProfile> studentList = new ArrayList<>();
     String today;
+    CheckBox checkBox;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,8 +67,9 @@ public class MemberFragment extends Fragment {
         //화면에 뿌려주기
         adapter = new MemberListViewAdapter(studentList);
         listView = rootView.findViewById(R.id.member_listeiw);
-        listView.setAdapter(adapter);
+        checkBox = rootView.findViewById(R.id.checkBox);
 
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,7 +113,17 @@ public class MemberFragment extends Fragment {
                 builder.create().show();
                 break;
             case R.id.delete_student:
-                //목록 다중 삭제기능 구현
+                SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+                int count = adapter.getCount();
+                for(int i = count-1;i>=0;i--){
+                    if(checkedItems.get(i)){
+                        dbHelper.deleteAttend("name", studentList.get(i).getName());
+                        studentList.remove(i);
+                    }
+                }
+                adapter.notifyDataSetChanged();;
+                listView.clearChoices();;
+
                 break;
         }
         return super.onOptionsItemSelected(item);
