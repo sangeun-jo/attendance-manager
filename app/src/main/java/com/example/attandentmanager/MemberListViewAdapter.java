@@ -101,5 +101,4 @@ public class MemberListViewAdapter extends BaseAdapter {
         mSelectedItemsIds = new SparseBooleanArray();
         notifyDataSetChanged();
     }
-
 }

@@ -27,7 +27,8 @@ public class TodayAttend extends AppCompatActivity {
     EditText lateTime;
     EditText inputFine;
 
-    DBHelper dbHelper;
+    //DBHelper dbHelper;
+    SQLiteHelper dbHelper;
 
     SharedPreferences fine;
 
@@ -40,10 +41,6 @@ public class TodayAttend extends AppCompatActivity {
         wrongWord = findViewById(R.id.wrong_word);
         lateTime =findViewById(R.id.late_time);
         inputFine = findViewById(R.id.input_fine);
-
-
-
-        dbHelper = new DBHelper(this, "Attend.db", null, 2);
 
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
 

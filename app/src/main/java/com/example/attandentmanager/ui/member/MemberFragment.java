@@ -1,38 +1,26 @@
 package com.example.attandentmanager.ui.member;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.attandentmanager.AttendListViewAdapter;
-import com.example.attandentmanager.DBHelper;
-import com.example.attandentmanager.MainActivity;
 import com.example.attandentmanager.MemberListViewAdapter;
 import com.example.attandentmanager.R;
-import com.example.attandentmanager.StudentInfo;
+import com.example.attandentmanager.SQLiteHelper;
 import com.example.attandentmanager.StudentProfile;
 
 import java.text.SimpleDateFormat;
@@ -44,7 +32,7 @@ public class MemberFragment extends Fragment {
 
     ListView listView;
     MemberListViewAdapter adapter;
-    DBHelper dbHelper;
+    SQLiteHelper dbHelper;
     ArrayList<StudentProfile> studentList = new ArrayList<>();
     String today;
     CheckBox checkBox;
@@ -55,7 +43,8 @@ public class MemberFragment extends Fragment {
 
         setHasOptionsMenu(true); // 점 세개 메뉴 프레그먼트 보여주기
 
-        dbHelper = new DBHelper(getActivity(), "Attend.db", null, 2);
+        dbHelper = new SQLiteHelper(getActivity()).getInstance(getActivity());
+        dbHelper.open();
 
         //오늘날짜
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -85,8 +74,6 @@ public class MemberFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.member, menu);
-        //myInflater = inflater;
-        //myMenu = menu;
     }
 
     // 점 세게 메뉴 중 하나가 클릭되었을 때
@@ -117,15 +104,19 @@ public class MemberFragment extends Fragment {
                 int count = adapter.getCount();
                 for(int i = count-1;i>=0;i--){
                     if(checkedItems.get(i)){
-                        dbHelper.deleteAttend("name", studentList.get(i).getName());
+                        String name = studentList.get(i).getName();
+                        dbHelper.deleteStudent(name);
                         studentList.remove(i);
                     }
                 }
-                adapter.notifyDataSetChanged();;
-                listView.clearChoices();;
+                adapter.notifyDataSetChanged();
+                listView.clearChoices();
+
+                getActivity().setResult(05);
 
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

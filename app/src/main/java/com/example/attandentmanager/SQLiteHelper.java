@@ -1,0 +1,185 @@
+package com.example.attandentmanager;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+
+
+public class SQLiteHelper extends SQLiteOpenHelper {
+
+    private static final String dbname = "Attend.db";
+    private static final int version = 2;
+
+    private static SQLiteHelper INSTANCE;
+    private static SQLiteDatabase mDb;
+
+    public static SQLiteHelper getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new SQLiteHelper(context.getApplicationContext());
+            mDb = INSTANCE.getWritableDatabase();
+        }
+
+        return  INSTANCE;
+    }
+
+
+    public void open() {
+        if (mDb.isOpen() == false) {
+            INSTANCE.onOpen(mDb);
+        }
+    }
+
+    public void close(){
+        if(mDb.isOpen() == true) {
+            INSTANCE.close();
+        }
+    }
+
+    public SQLiteHelper(Context context) {
+        super(context, dbname, null, version);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE attend (date TEXT, name TEXT, state INTEGER, late INTEGER, word INTEGER, fine INTEGER, debt INTEGER);");
+        db.execSQL("CREATE TABLE profile (regiDate TEXT, name TEXT);");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS attend");
+        db.execSQL("DROP TABLE IF EXISTS profile");
+    }
+
+    public void insertAttend(String date, String name, int state, int late, int word, int fine, int debt){
+        String sql = "INSERT INTO attend VALUES('" + date + "','" + name + "','" +  state + "','" + late + "','" + word + "','" + fine +  "','" + debt +  "');";
+        mDb.execSQL(sql);
+    }
+
+    public void insertProfile(String regiDate, String name){
+        String sql = "INSERT INTO profile VALUES('" + regiDate + "','" + name + "');";
+        mDb.execSQL(sql);
+        insertAttend(regiDate, name, 0, 0, 0, 0, 0);
+    }
+
+    public void deleteAll(){ //모든 데이터 삭제
+        mDb.execSQL("DELETE FROM attend;");
+        mDb.execSQL("DELETE FROM profile;");
+    }
+
+    public void deleteAttendAll(){
+        mDb.execSQL("DELETE FROM attend;");
+    }
+
+    public void deleteProfileAll(){
+        mDb.execSQL("DELETE FROM profile;");
+    }
+
+    /*
+    public void deleteAttend(String field, String con){
+        mDb.execSQL("DELETE FROM attend WHERE " + field + " = '" + con + "';");
+    }
+
+    public void deleteProfile(String field, String con){
+        mDb.execSQL("DELETE FROM profile WHERE " + field + " = '" + con + "';");
+    }
+
+    */
+
+    public void deleteStudent(String name){
+        mDb.execSQL("DELETE FROM attend WHERE name = '" + name + "';");
+        mDb.execSQL("DELETE FROM profile WHERE name = '" + name + "';");
+    }
+
+    public void modifyAttend(String date, String name, int state, int late, int word, int fine, int debt){
+
+        String sql = "UPDATE attend SET state = ?, late = ?, word = ?, fine = ?, debt = ? WHERE (date = ? and name = ?);";
+
+        mDb.execSQL(sql, new String[] {
+                Integer.toString(state),
+                Integer.toString(late),
+                Integer.toString(word),
+                Integer.toString(fine),
+                Integer.toString(debt),
+                date, name});
+    }
+
+    public void modifyName(String af_name, String bf_name){
+        mDb.execSQL("UPDATE names SET name = '" + af_name + "' WHERE name = '" + bf_name+ "';");
+    }
+
+    //학생 프로필 불러오기
+    public ArrayList<StudentProfile> loadProfile(){
+
+        ArrayList<StudentProfile> studentProfileList = new ArrayList<>();
+        String sql = "SELECT * FROM profile;";
+        Cursor cursor = mDb.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            StudentProfile student = new StudentProfile(
+                    cursor.getString(0), //등록 날짜
+                    cursor.getString(1) //이름
+            );
+            studentProfileList.add(student);
+        }
+
+        cursor.close();
+
+        return studentProfileList;
+    }
+
+
+    //학생 이름 불러오기
+    public ArrayList<String>loadNames(){
+
+        ArrayList<String> studentList = new ArrayList<>();
+        String sql = "SELECT * FROM profile;";
+        Cursor cursor = mDb.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            String student = cursor.getString(1);
+            studentList.add(student);
+        }
+
+        cursor.close();
+
+        return studentList;
+    }
+
+    // 오늘 출석 데이터 반환
+    public ArrayList<StudentInfo>loadTodayAttend(String today){
+
+        Cursor cursor = null;
+        ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
+        ArrayList<StudentProfile> pro = loadProfile();
+
+
+        for(int i = 0; i < pro.size() ; i++){
+            String sql = "SELECT * FROM attend WHERE (date = ? and name = ?);";
+            if(cursor != null && cursor.isClosed()){
+                cursor.close();
+            }
+            cursor = mDb.rawQuery(sql, new String[] {today, pro.get(i).getName()});
+            if(cursor.getCount() <= 0) {
+                insertAttend(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
+                StudentInfo student = new StudentInfo(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
+                studentInfoList.add(student);
+            } else { // 오늘날짜 레코드가 있으면 불러오기
+                //System.out.println(today + " 데이터 있음. 불러옴");
+                cursor.moveToNext();
+                StudentInfo student = new StudentInfo(today, cursor.getString(1), 0, 0, 0,0, 0);
+                student.changeState(cursor.getInt(2));
+                student.setLateMinutes(cursor.getInt(3));
+                student.setWrongWords(cursor.getInt(4));
+                student.setFine(cursor.getInt(5));
+                studentInfoList.add(student);
+            }
+            cursor.close();
+        }
+
+        return studentInfoList;
+    }
+
+}
+

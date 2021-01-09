@@ -13,13 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.attandentmanager.AttendListViewAdapter;
-import com.example.attandentmanager.DBHelper;
 import com.example.attandentmanager.R;
+import com.example.attandentmanager.SQLiteHelper;
 import com.example.attandentmanager.StudentInfo;
 import com.example.attandentmanager.TodayAttend;
 
@@ -36,7 +37,8 @@ public class HomeFragment extends Fragment {
     AttendListViewAdapter adapter;
     ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
 
-    DBHelper dbHelper;
+    //DBHelper dbHelper;
+    SQLiteHelper dbHelper;
 
     SharedPreferences fine;
 
@@ -52,7 +54,8 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         today = sdf.format(Calendar.getInstance(Locale.getDefault()).getTime());
 
-        dbHelper = new DBHelper(getActivity(), "Attend.db", null, 2);
+        dbHelper = new SQLiteHelper(getActivity()).getInstance(getActivity());
+        dbHelper.open();
 
         studentInfoList = dbHelper.loadTodayAttend(today);
 
@@ -111,7 +114,6 @@ public class HomeFragment extends Fragment {
         adapter.setListViewItemList(studentInfoList);
         adapter.notifyDataSetChanged();
     }
-
 
     public void insertDB(int i, int state, int late, int word, int money) {
 
@@ -173,8 +175,6 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000 && resultCode == 03){
-            // System.out.println("프레그먼트에서 응답수신!!!");
-
             int state = data.getIntExtra("state", 0);
             int late = data.getIntExtra("late", 0);
             int word = data.getIntExtra("word", 0);
@@ -183,8 +183,14 @@ public class HomeFragment extends Fragment {
             insertDB(index, state, late, word, money);
             adapter.setListViewItemList(studentInfoList);
             adapter.notifyDataSetChanged();
+        }
 
+        //프레그먼트간 통신
+        if(requestCode == 05){
+            System.out.println("프레그먼트 통신");
+            studentInfoList = dbHelper.loadTodayAttend(today);
+            adapter.setListViewItemList(studentInfoList);
+            adapter.notifyDataSetChanged();
         }
     }
-
 }
