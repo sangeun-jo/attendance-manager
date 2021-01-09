@@ -44,7 +44,6 @@ public class MemberFragment extends Fragment {
         setHasOptionsMenu(true); // 점 세개 메뉴 프레그먼트 보여주기
 
         dbHelper = new SQLiteHelper(getActivity()).getInstance(getActivity());
-        dbHelper.open();
 
         //오늘날짜
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -73,7 +72,7 @@ public class MemberFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.member, menu);
+        inflater.inflate(R.menu.member_manage, menu);
     }
 
     // 점 세게 메뉴 중 하나가 클릭되었을 때

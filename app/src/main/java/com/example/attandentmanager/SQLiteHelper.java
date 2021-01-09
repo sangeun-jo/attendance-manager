@@ -1,6 +1,7 @@
 package com.example.attandentmanager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -21,7 +22,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             INSTANCE = new SQLiteHelper(context.getApplicationContext());
             mDb = INSTANCE.getWritableDatabase();
         }
-
         return  INSTANCE;
     }
 
@@ -32,6 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
+    @Override
     public void close(){
         if(mDb.isOpen() == true) {
             INSTANCE.close();
@@ -77,17 +78,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void deleteProfileAll(){
         mDb.execSQL("DELETE FROM profile;");
     }
-
-    /*
-    public void deleteAttend(String field, String con){
-        mDb.execSQL("DELETE FROM attend WHERE " + field + " = '" + con + "';");
-    }
-
-    public void deleteProfile(String field, String con){
-        mDb.execSQL("DELETE FROM profile WHERE " + field + " = '" + con + "';");
-    }
-
-    */
 
     public void deleteStudent(String name){
         mDb.execSQL("DELETE FROM attend WHERE name = '" + name + "';");
@@ -148,7 +138,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     // 오늘 출석 데이터 반환
-    public ArrayList<StudentInfo>loadTodayAttend(String today){
+    public ArrayList<StudentInfo>loadAttendByDate(String today){
 
         Cursor cursor = null;
         ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
@@ -161,12 +151,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
             cursor = mDb.rawQuery(sql, new String[] {today, pro.get(i).getName()});
-            if(cursor.getCount() <= 0) {
+
+            if(cursor.getCount() <= 0) { //없으면 생성하기
                 insertAttend(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
                 StudentInfo student = new StudentInfo(today, pro.get(i).getName(), 0, 0, 0, 0, 0);
                 studentInfoList.add(student);
             } else { // 오늘날짜 레코드가 있으면 불러오기
-                //System.out.println(today + " 데이터 있음. 불러옴");
                 cursor.moveToNext();
                 StudentInfo student = new StudentInfo(today, cursor.getString(1), 0, 0, 0,0, 0);
                 student.changeState(cursor.getInt(2));
@@ -179,6 +169,61 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
 
         return studentInfoList;
+    }
+
+    public void modifyAttend(StudentInfo studentInfo, SharedPreferences fine, int state, int late, int word, int money){
+
+        String sql = "UPDATE attend SET state = ?, late = ?, word = ?, fine = ?, debt = ? WHERE (date = ? and name = ?);";
+
+        int fineForWord = fine.getInt("fineForWord", 100);
+        int fineForLate = fine.getInt("fineForLate", 100);
+        int free_absent = fine.getInt("free_absent", 10000);
+        int plan_absent = fine.getInt("plan_absent", 0);
+
+        int all_fine = 0;
+
+        if (state == 1) { //출석
+            //지각 에딧창 비활성화
+            studentInfo.changeState(1);
+            studentInfo.chageLateMinutes(0);
+        } else if (state == 2) { //지각
+            // 지각 에딧창 활성화
+            if (late >= 0) { // 0 이상 입력되면
+                studentInfo.changeState(2);
+                studentInfo.setLateMinutes(late);
+                all_fine = all_fine + studentInfo.getLateMinutes() * fineForLate;
+            }
+        } else if (state == 3) { //무단결
+            studentInfo.changeState(3);
+            studentInfo.setLateMinutes(0);
+            studentInfo.setWrongWords(0);
+            all_fine = all_fine + free_absent;
+        } else { //예고 결
+            studentInfo.changeState(4);
+            studentInfo.setLateMinutes(0);
+            studentInfo.setWrongWords(0);
+            studentInfo.setFine(0);
+            all_fine = all_fine + plan_absent;
+        }
+
+        if (word >= 0) {
+            studentInfo.setWrongWords(word);
+            all_fine = all_fine + studentInfo.getWrongWords() * fineForWord;
+        }
+
+        studentInfo.setFine(all_fine);
+
+        if (money >= 0) {
+            studentInfo.setDebt(studentInfo.getFine() - money); //미납
+        }
+
+        mDb.execSQL(sql, new String[] {
+                Integer.toString(studentInfo.getState()),
+                Integer.toString(studentInfo.getLateMinutes()),
+                Integer.toString(studentInfo.getWrongWords()),
+                Integer.toString(studentInfo.getFine()),
+                Integer.toString(studentInfo.getDebt()),
+                studentInfo.getDate(), studentInfo.getName()});
     }
 
 }

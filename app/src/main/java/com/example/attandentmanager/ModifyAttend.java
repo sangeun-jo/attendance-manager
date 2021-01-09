@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TodayAttend extends AppCompatActivity {
+public class ModifyAttend extends AppCompatActivity {
 
     String name;
     String today;
@@ -28,7 +28,6 @@ public class TodayAttend extends AppCompatActivity {
     EditText inputFine;
 
     //DBHelper dbHelper;
-    SQLiteHelper dbHelper;
 
     SharedPreferences fine;
 
@@ -43,6 +42,7 @@ public class TodayAttend extends AppCompatActivity {
         inputFine = findViewById(R.id.input_fine);
 
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
+
 
         /* 에딧창 활성, 비활성 코드
         lateTime.setClickable(false);
