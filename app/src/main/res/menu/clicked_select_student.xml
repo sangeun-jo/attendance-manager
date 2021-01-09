@@ -1,11 +1,16 @@
 <?xml version="1.0"   encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/selectAll"
-        android:title="Select All" />
+        android:id="@+id/select_all"
+        android:orderInCategory="100"
+        android:title="전체 선택"
+        app:showAsAction="never" />
 
     <item
-        android:id="@+id/delete"
-        android:title="Delete" />
+        android:id="@+id/delete_student"
+        android:orderInCategory="100"
+        android:title="학생 삭제"
+        app:showAsAction="never" />
 </menu>

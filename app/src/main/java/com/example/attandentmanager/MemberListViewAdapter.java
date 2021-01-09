@@ -15,7 +15,7 @@ public class MemberListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     public ArrayList<StudentProfile> listViewItemList;
     private SparseBooleanArray mSelectedItemsIds;
-
+    public boolean isCheck = false;
 
     // ListViewAdapter의 생성자
     public MemberListViewAdapter(ArrayList<StudentProfile> listViewItemList){
@@ -24,6 +24,10 @@ public class MemberListViewAdapter extends BaseAdapter {
 
     public void setMemberListViewItemList(ArrayList<StudentProfile> listViewItemList) {
         this.listViewItemList = listViewItemList;
+    }
+
+    public void setIsCheck(boolean isCheck){
+        this.isCheck = isCheck;
     }
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
@@ -35,7 +39,7 @@ public class MemberListViewAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
+
         final Context context = parent.getContext();
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
@@ -49,6 +53,7 @@ public class MemberListViewAdapter extends BaseAdapter {
         //TextView date = convertView.findViewById(R.id.date);
         TextView registerDate = convertView.findViewById(R.id.regi_date);
         TextView studentName = convertView.findViewById(R.id.student_name) ;
+        CheckBox checkBox = convertView.findViewById(R.id.checkBox);
         //TextView studentState = convertView.findViewById(R.id.student_state);
         //TextView wrongWords = convertView.findViewById(R.id.wrong_words);
         //TextView fine = convertView.findViewById(R.id.fine);
@@ -63,6 +68,11 @@ public class MemberListViewAdapter extends BaseAdapter {
         //date.setText(listViewItem.getDate());
         registerDate.setText(listViewItem.getRegisterDate());
         studentName.setText(listViewItem.getName());
+        if(isCheck == true){
+            checkBox.setVisibility(View.VISIBLE);
+        } else {
+            checkBox.setVisibility(View.GONE);
+        }
 
         /*
         if(listViewItem.getState() == 1){
@@ -101,4 +111,5 @@ public class MemberListViewAdapter extends BaseAdapter {
         mSelectedItemsIds = new SparseBooleanArray();
         notifyDataSetChanged();
     }
+
 }

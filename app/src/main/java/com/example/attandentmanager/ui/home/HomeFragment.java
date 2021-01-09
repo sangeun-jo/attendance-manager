@@ -1,5 +1,6 @@
 package com.example.attandentmanager.ui.home;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +33,6 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
 
     int index;
-    String today;
     ListView listView;
     AttendListViewAdapter adapter;
     ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
@@ -41,6 +42,10 @@ public class HomeFragment extends Fragment {
 
     SharedPreferences fine;
 
+    String today;
+    String selected;
+    Calendar myCalendar = Calendar.getInstance();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         //오늘날짜
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
         today = sdf.format(Calendar.getInstance(Locale.getDefault()).getTime());
 
         fine = getActivity().getSharedPreferences("Fine", getActivity().MODE_PRIVATE); //저장된 벌금 파일
@@ -100,6 +105,12 @@ public class HomeFragment extends Fragment {
                 break;
             case R.id.reset_today_attend:
                 break;
+            case R.id.select_date:
+                new DatePickerDialog(getActivity(),
+                        myDatePicker, myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -132,4 +143,24 @@ public class HomeFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
+    DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            selected = sdf.format(myCalendar.getTime());
+            showSelectedAttend();
+        }
+    };
+
+    public void showSelectedAttend(){
+        ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
+        ab.setTitle(selected + " 출결");
+        studentInfoList = dbHelper.loadAttendByDate(selected);
+        adapter.setListViewItemList(studentInfoList);
+        adapter.notifyDataSetChanged();
+    }
+
 }

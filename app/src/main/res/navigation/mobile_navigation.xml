@@ -8,15 +8,8 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.attandentmanager.ui.home.HomeFragment"
-        android:label="오늘 출결"
+        android:label="출결"
         tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/nav_last"
-        android:name="com.example.attandentmanager.ui.last.LastFragment"
-        android:label="이전 출결"
-        tools:layout="@layout/fragment_last" />
-
 
     <fragment
         android:id="@+id/nav_member"
@@ -30,9 +23,4 @@
         android:label="설정"
         tools:layout="@layout/fragment_setting" />
 
-    <fragment
-        android:id="@+id/nav_howtouse"
-        android:name="com.example.attandentmanager.ui.howtouse.HowToUseFragment"
-        android:label="@string/menu_howtouse"
-        tools:layout="@layout/fragment_howtouse" />
 </navigation>

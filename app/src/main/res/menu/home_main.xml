@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/select_date"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="Search"
+        app:showAsAction="ifRoom"/>
+
+    <DatePicker
+        android:id="@+id/vDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+    <item
         android:id="@+id/attend_all"
         android:orderInCategory="100"
         android:title="전체 출석"

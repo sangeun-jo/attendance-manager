@@ -17,9 +17,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/delete_student"
+        android:id="@+id/select_student"
         android:orderInCategory="100"
-        android:title="학생 삭제"
+        android:title="학생 선택"
         app:showAsAction="never" />
 
 
