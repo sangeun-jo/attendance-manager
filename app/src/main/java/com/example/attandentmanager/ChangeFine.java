@@ -2,6 +2,7 @@ package com.example.attandentmanager;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,8 @@ public class ChangeFine extends Dialog implements View.OnClickListener{
 
         setContentView(R.layout.change_fine);
 
+
+
         //init
         editLate = findViewById(R.id.edit_for_late); // 늦은 시간
         editWord = findViewById(R.id.edit_for_word); // 틀린 단어 개수
@@ -58,10 +61,12 @@ public class ChangeFine extends Dialog implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        int late = -1;
-        int word = -1;
-        int free_absent = -1;
-        int plan_absent = -1;
+
+        SharedPreferences fine = getContext().getSharedPreferences("Fine",getContext().MODE_PRIVATE);
+        int late = fine.getInt("fineForWord", 100);
+        int word = fine.getInt("fineForLate", 100);
+        int free_absent = fine.getInt("free_absent", 10000);
+        int plan_absent = fine.getInt("plan_absent", 0);
 
         if(editLate.getText().length() > 0){
             late = Integer.parseInt(editLate.getText().toString());

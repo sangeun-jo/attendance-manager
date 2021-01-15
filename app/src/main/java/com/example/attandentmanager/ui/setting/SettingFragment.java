@@ -69,18 +69,10 @@ public class SettingFragment extends Fragment {
             public void onPositiveClicked(int late, int word, int free_absent, int plan_absent) {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Fine",getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (late != -1){
-                    editor.putInt("fineForWord", late);
-                }
-                if (word != -1){
-                    editor.putInt("fineForLate", word);
-                }
-                if (free_absent != - 1){
-                    editor.putInt("fineForFreeAbsent", free_absent);
-                }
-                if(plan_absent != -1){
-                    editor.putInt("fineForFreeAbsent", plan_absent);
-                }
+                editor.putInt("fineForWord", word);
+                editor.putInt("fineForLate", late);
+                editor.putInt("free_absent", free_absent);
+                editor.putInt("plan_absent", plan_absent);
                 editor.commit();
                 dialog.dismiss();
             }
@@ -88,15 +80,6 @@ public class SettingFragment extends Fragment {
 
         });
 
-/*
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        Window window = dialog.getWindow();
-        window.setAttributes(lp);
-
- */
         dialog.show();
 
     }
