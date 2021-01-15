@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -25,6 +26,7 @@ import com.example.attandentmanager.MainActivity;
 import com.example.attandentmanager.MemberListViewAdapter;
 import com.example.attandentmanager.R;
 import com.example.attandentmanager.SQLiteHelper;
+import com.example.attandentmanager.StudentInfo;
 import com.example.attandentmanager.StudentProfile;
 
 import java.text.SimpleDateFormat;
@@ -70,7 +72,8 @@ public class MemberFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                // 새 액티비티 띄우기
+                // 학생 이름 수정 및 통계 보여주기
             }
         });
 
@@ -122,6 +125,37 @@ public class MemberFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    // 통계 얻기
+    public int[] Statistic(ArrayList<StudentInfo> studentInfoList){
+
+        int allAttend = 0; //출석 횟수
+        int allLate = 0; //지각 분
+        int allWrong = 0;//틀린단어
+        int allFine = 0;  // 벌금
+        int allAbsent = 0; // 결석횟수
+        int allDebt = 0; // 미납
+
+        int state = 0;
+
+        for(int i=0; i < studentInfoList.size(); i++){
+            state = studentInfoList.get(i).getState();
+            allWrong += studentInfoList.get(i).getWrongWords();
+            allLate += studentInfoList.get(i).getLateMinutes();
+            allFine += studentInfoList.get(i).getFine();
+            allDebt += studentInfoList.get(i).getDebt();
+            if(state == 3 || state == 4){
+                allAbsent++;
+            }
+            if(state == 1){
+                allAttend++;
+            }
+        }
+
+        int[] values = {allAttend, allWrong, allLate, allAbsent, allFine, allDebt};
+
+        return values;
+    }
+
     ActionMode.Callback mActionCallback = new ActionMode.Callback() {
 
         @Override
@@ -152,7 +186,7 @@ public class MemberFragment extends Fragment {
                     return true;
                 case R.id.delete_student:
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("선택한 항목을 삭제하겠습니까?");
+                    builder.setMessage("이 작업은 되돌릴 수 없습니다.");
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -176,8 +210,7 @@ public class MemberFragment extends Fragment {
                     });
 
                     AlertDialog alert = builder.create();
-                    alert.setIcon(R.mipmap.ic_launcher_round);// dialog  Icon
-                    alert.setTitle("Confirmation"); // dialog  Title
+                    alert.setTitle("삭제 확인"); // dialog  Title
                     alert.show();
                     return true;
                 default:

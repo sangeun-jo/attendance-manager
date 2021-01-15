@@ -84,18 +84,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         mDb.execSQL("DELETE FROM profile WHERE name = '" + name + "';");
     }
 
-    public void modifyAttend(String date, String name, int state, int late, int word, int fine, int debt){
-
-        String sql = "UPDATE attend SET state = ?, late = ?, word = ?, fine = ?, debt = ? WHERE (date = ? and name = ?);";
-
-        mDb.execSQL(sql, new String[] {
-                Integer.toString(state),
-                Integer.toString(late),
-                Integer.toString(word),
-                Integer.toString(fine),
-                Integer.toString(debt),
-                date, name});
-    }
 
     public void modifyName(String af_name, String bf_name){
         mDb.execSQL("UPDATE names SET name = '" + af_name + "' WHERE name = '" + bf_name+ "';");
@@ -135,6 +123,27 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return studentList;
+    }
+
+    public ArrayList<StudentInfo>loadAttendByName(String name){
+        ArrayList<StudentInfo> studentAllData = new ArrayList<>();
+        String sql = "SELECT * FROM attend WHERE name = ? ORDER BY date DESC;";
+        Cursor cursor = mDb.rawQuery(sql, new String[] {name});
+        while (cursor.moveToNext()) {
+            StudentInfo student = new StudentInfo(
+                    cursor.getString(0), //날짜
+                    cursor.getString(1), //이름
+                    cursor.getInt(2), // 상태
+                    cursor.getInt(3), // 지각 분
+                    cursor.getInt(4), // 틀린단어
+                    cursor.getInt(5), // 벌금
+                    cursor.getInt(6) // 납입
+            );
+            studentAllData.add(student);
+        }
+        cursor.close();
+
+        return studentAllData;
     }
 
     // 오늘 출석 데이터 반환
@@ -180,6 +189,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         int free_absent = fine.getInt("free_absent", 10000);
         int plan_absent = fine.getInt("plan_absent", 0);
 
+        //0으로 초기화
+        ResetRecode(studentInfo);
+
         int all_fine = 0;
 
         if (state == 1) { //출석
@@ -224,6 +236,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Integer.toString(studentInfo.getFine()),
                 Integer.toString(studentInfo.getDebt()),
                 studentInfo.getDate(), studentInfo.getName()});
+    }
+
+
+    public void ResetRecode(StudentInfo studentInfo){
+
+        String sql = "UPDATE attend SET state = 0, late = 0, word = 0, fine = 0, debt = 0 WHERE (date = ? and name = ?);";
+
+
+        mDb.execSQL(sql, new String[]{
+                studentInfo.getDate(), studentInfo.getName()}
+                );
     }
 
 }

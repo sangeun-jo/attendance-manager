@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.member.MemberFragment">
 
-
     <ListView
         android:id="@+id/member_listeiw"
         android:layout_width="match_parent"

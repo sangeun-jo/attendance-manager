@@ -71,8 +71,8 @@ public class AttendListViewAdapter extends BaseAdapter {
         }
 
         wrongWords.setText(listViewItem.getWrongWords() +"개");
-
         fine.setText(listViewItem.getFine() + "원");
+
         //debt.setText("입금: " + listViewItem.getDebt() + "원");
 
         return convertView;
