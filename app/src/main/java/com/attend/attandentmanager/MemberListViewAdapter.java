@@ -1,5 +1,4 @@
-package com.example.attandentmanager;
-import android.annotation.SuppressLint;
+package com.attend.attandentmanager;
 import android.content.Context;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;

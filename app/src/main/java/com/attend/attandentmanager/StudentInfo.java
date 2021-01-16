@@ -1,4 +1,4 @@
-package com.example.attandentmanager;
+package com.attend.attandentmanager;
 
 public class StudentInfo {
 

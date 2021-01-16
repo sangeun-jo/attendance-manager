@@ -1,4 +1,4 @@
-package com.example.attandentmanager.ui.home;
+package com.attend.attandentmanager.ui.home;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,20 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-import com.example.attandentmanager.AttendListViewAdapter;
-import com.example.attandentmanager.MainActivity;
-import com.example.attandentmanager.R;
-import com.example.attandentmanager.SQLiteHelper;
-import com.example.attandentmanager.StudentInfo;
-import com.example.attandentmanager.ModifyAttend;
-import com.example.attandentmanager.StudentProfile;
+import com.attend.attandentmanager.AttendListViewAdapter;
+import com.attend.attandentmanager.MainActivity;
+import com.attend.attandentmanager.R;
+import com.attend.attandentmanager.SQLiteHelper;
+import com.attend.attandentmanager.StudentInfo;
+import com.attend.attandentmanager.ModifyAttend;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

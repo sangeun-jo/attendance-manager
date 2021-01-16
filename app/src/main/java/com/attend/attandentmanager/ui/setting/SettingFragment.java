@@ -1,38 +1,24 @@
-package com.example.attandentmanager.ui.setting;
+package com.attend.attandentmanager.ui.setting;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.IntentCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.attandentmanager.ChangeFine;
-import com.example.attandentmanager.R;
-import com.example.attandentmanager.SQLiteHelper;
+import com.attend.attandentmanager.ChangeFine;
+import com.attend.attandentmanager.R;
+import com.attend.attandentmanager.SQLiteHelper;
 
 public class SettingFragment extends Fragment {
 

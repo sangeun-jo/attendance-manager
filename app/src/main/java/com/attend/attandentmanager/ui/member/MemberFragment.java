@@ -1,8 +1,7 @@
-package com.example.attandentmanager.ui.member;
+package com.attend.attandentmanager.ui.member;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -17,18 +16,17 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-import com.example.attandentmanager.MainActivity;
-import com.example.attandentmanager.MemberListViewAdapter;
-import com.example.attandentmanager.R;
-import com.example.attandentmanager.SQLiteHelper;
-import com.example.attandentmanager.StudentInfo;
-import com.example.attandentmanager.StudentProfile;
+import com.attend.attandentmanager.MainActivity;
+import com.attend.attandentmanager.MemberListViewAdapter;
+import com.attend.attandentmanager.R;
+import com.attend.attandentmanager.SQLiteHelper;
+import com.attend.attandentmanager.StudentInfo;
+import com.attend.attandentmanager.StudentProfile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
