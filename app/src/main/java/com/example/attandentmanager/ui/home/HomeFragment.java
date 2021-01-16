@@ -97,14 +97,18 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.home_main, menu);
     }
 
-    // 점 세게 메뉴 중 하나가 클릭되었을 때
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            /*
             case R.id.attend_all:
                 break;
             case R.id.reset_today_attend:
                 break;
+
+             */
             case R.id.select_date:
                 new DatePickerDialog(getActivity(),
                         myDatePicker, myCalendar.get(Calendar.YEAR),

@@ -9,22 +9,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="2">
+            android:padding="20dp">
 
             <RadioGroup
                 android:id="@+id/radioGroup1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_margin ="10dp">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/attend"
@@ -47,7 +44,7 @@
                     android:id="@+id/ab_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="무단 결석"
+                    android:text="무단결"
                     android:textSize="45px"
                     android:layout_weight="1"/>
 
@@ -55,7 +52,7 @@
                     android:id="@+id/ab_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="예고 결석"
+                    android:text="예고결"
                     android:textSize="45px"
                     android:layout_weight="1"/>
 
@@ -63,20 +60,19 @@
         </LinearLayout>
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginVertical="10dp">
+            android:paddingLeft="40dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="틀린단어 개수: "
-                android:textSize="40px"
-                android:textAlignment="center">
+                android:text="틀린단어"
+                android:textSize="40px">
 
             </TextView>
             <EditText
@@ -86,22 +82,31 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 android:layout_weight="2"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="개"
+                android:textSize="40px"
+                android:textAlignment="center">
+
+            </TextView>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginVertical="10dp">
+            android:paddingLeft="40dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="지각 시간(분): "
-                android:textSize="40px"
-                android:textAlignment="center">
+                android:text="지각 시간"
+                android:textSize="40px">
 
             </TextView>
             <EditText
@@ -111,23 +116,30 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 android:layout_weight="2"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="분"
+                android:textSize="40px"
+                android:textAlignment="center">
+
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginVertical="10dp">
+            android:paddingLeft="40dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="오늘 수금 : "
-                android:textSize="40px"
-                android:textAlignment="center">
-
+                android:text="오늘 수금"
+                android:textSize="40px">
             </TextView>
             <EditText
                 android:id="@+id/input_fine"
@@ -136,6 +148,15 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 android:layout_weight="2"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="원"
+                android:textSize="40px"
+                android:textAlignment="center">
+
+            </TextView>
         </LinearLayout>
 
 

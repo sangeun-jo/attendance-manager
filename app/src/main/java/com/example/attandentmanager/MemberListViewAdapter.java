@@ -45,7 +45,6 @@ public class MemberListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             convertView = inflater.inflate(R.layout.member_listview, parent, false);
         }
 

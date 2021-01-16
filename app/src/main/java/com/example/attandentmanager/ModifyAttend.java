@@ -56,7 +56,7 @@ public class ModifyAttend extends AppCompatActivity {
         today = intent.getStringExtra("today");
 
         ActionBar ab = getSupportActionBar();
-        ab.setTitle(name+ " 씨의 출결 기록 편집");
+        ab.setTitle(name+ " 씨의 출결 기록");
 
         ab.setDisplayHomeAsUpEnabled(true); //백버튼
 

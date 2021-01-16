@@ -13,13 +13,13 @@
     <item
         android:id="@+id/add_student"
         android:orderInCategory="100"
-        android:title="학생 추가"
+        android:title="멤버 추가"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/select_student"
         android:orderInCategory="100"
-        android:title="학생 선택"
+        android:title="멤버 선택"
         app:showAsAction="never" />
 
 

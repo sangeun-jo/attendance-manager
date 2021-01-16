@@ -92,7 +92,7 @@ public class MemberFragment extends Fragment {
         switch(item.getItemId()) {
             case R.id.add_student: //학생 추가
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("학생 이름 입력");
+                builder.setTitle("멤버 이름 입력");
                 final EditText et = new EditText(getActivity());
                 builder.setView(et);
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
