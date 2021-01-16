@@ -3,12 +3,17 @@ package com.example.attandentmanager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,9 +31,6 @@ public class ModifyAttend extends AppCompatActivity {
     EditText wrongWord;
     EditText lateTime;
     EditText inputFine;
-
-    //DBHelper dbHelper;
-
     SharedPreferences fine;
 
     @Override
@@ -44,13 +46,6 @@ public class ModifyAttend extends AppCompatActivity {
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
 
 
-        /* 에딧창 활성, 비활성 코드
-        lateTime.setClickable(false);
-        lateTime.setFocusable(false);
-        lateTime.setFocusableInTouchMode (true);
-        lateTime.setFocusable(true);
-        */
-
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         today = intent.getStringExtra("today");
@@ -58,9 +53,40 @@ public class ModifyAttend extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle(name+ " 씨의 출결 기록");
 
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
+        radioGroup.setOnCheckedChangeListener(radioListener);
+
         ab.setDisplayHomeAsUpEnabled(true); //백버튼
 
     }
+
+    RadioGroup.OnCheckedChangeListener radioListener = new RadioGroup.OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+            if(i == R.id.attend){
+                wrongWord.setVisibility(View.VISIBLE);
+                lateTime.setVisibility(View.INVISIBLE);
+                lateTime.setClickable(false);
+                wrongWord.setClickable(true);
+            } else if(i == R.id.late){
+                wrongWord.setVisibility(View.VISIBLE);
+                lateTime.setVisibility(View.VISIBLE);
+                lateTime.setClickable(true);
+            } else if(i == R.id.ab_0){
+                wrongWord.setVisibility(View.INVISIBLE);
+                lateTime.setVisibility(View.INVISIBLE);
+                wrongWord.setClickable(false);
+                lateTime.setClickable(false);
+            }else{
+                wrongWord.setVisibility(View.INVISIBLE);
+                lateTime.setVisibility(View.INVISIBLE);
+                lateTime.setClickable(false);
+                wrongWord.setClickable(false);
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,7 +105,7 @@ public class ModifyAttend extends AppCompatActivity {
                     state = 1;
                 } else if (value.equals("지각")){
                     state = 2;
-                } else if (value.equals("무단 결석")){
+                } else if (value.equals("무단결")){
                     state = 3;
                 } else{
                     state = 4;

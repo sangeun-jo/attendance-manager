@@ -26,5 +26,4 @@ public class StudentProfile {
         return name;
     }
 
-
 }

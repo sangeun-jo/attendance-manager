@@ -63,9 +63,9 @@ public class AttendListViewAdapter extends BaseAdapter {
         } else if(listViewItem.getState() == 2){
             studentState.setText("지각: " + listViewItem.getLateMinutes() + "분");
         } else if(listViewItem.getState() == 3){
-            studentState.setText("무단결석");
+            studentState.setText("무단결");
         } else if(listViewItem.getState() == 4){
-            studentState.setText("예고결석");
+            studentState.setText("예고결");
         } else {
             studentState.setText("미체크");
         }

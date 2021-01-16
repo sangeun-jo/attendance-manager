@@ -2,6 +2,7 @@ package com.example.attandentmanager.ui.member;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -72,8 +73,9 @@ public class MemberFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // 새 액티비티 띄우기
-                // 학생 이름 수정 및 통계 보여주기
+                if(mActionMode == null) {
+                    selectJob(i);
+                }
             }
         });
 
@@ -126,7 +128,7 @@ public class MemberFragment extends Fragment {
     }
 
     // 통계 얻기
-    public int[] Statistic(ArrayList<StudentInfo> studentInfoList){
+    public int[] calStatistic(ArrayList<StudentInfo> student){
 
         int allAttend = 0; //출석 횟수
         int allLate = 0; //지각 분
@@ -137,12 +139,12 @@ public class MemberFragment extends Fragment {
 
         int state = 0;
 
-        for(int i=0; i < studentInfoList.size(); i++){
-            state = studentInfoList.get(i).getState();
-            allWrong += studentInfoList.get(i).getWrongWords();
-            allLate += studentInfoList.get(i).getLateMinutes();
-            allFine += studentInfoList.get(i).getFine();
-            allDebt += studentInfoList.get(i).getDebt();
+        for(int i=0; i < student.size(); i++){
+            state = student.get(i).getState();
+            allWrong += student.get(i).getWrongWords();
+            allLate += student.get(i).getLateMinutes();
+            allFine += student.get(i).getFine();
+            allDebt += student.get(i).getDebt();
             if(state == 3 || state == 4){
                 allAbsent++;
             }
@@ -187,12 +189,12 @@ public class MemberFragment extends Fragment {
                 case R.id.delete_student:
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("이 작업은 되돌릴 수 없습니다.");
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
                     });
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
@@ -229,4 +231,50 @@ public class MemberFragment extends Fragment {
             ab.show();
         }
     };
+
+    public void selectJob(final int pos){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final String[] choices = {"이름 수정", "통계 보기"};
+        builder.setItems(choices, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                String selected = choices[i];
+                if(selected.equals("이름 수정")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("변경할 이름을 입력하세요");
+                    final EditText et = new EditText(getActivity());
+                    builder.setView(et);
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String name = et.getText().toString();
+                            //스튜던트 리스트에서 기존 데이터 수정
+                            dbHelper.modifyName(name, studentList.get(pos).getName());
+                            studentList.get(pos).setName(name);
+                            adapter.setMemberListViewItemList(studentList);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("취소", null);
+                    builder.create().show();
+                } else {
+                    ArrayList<StudentInfo> student = dbHelper.loadAttendByName(studentList.get(pos).getName());
+                    int [] statistic = calStatistic(student);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("출결 통계");
+                    builder.setMessage("\n총 출석: " + statistic[0] + "회\n" +
+                            "\n총 지각: " + statistic[2] + "분\n"+
+                            "\n총 결석: " + statistic[3] + "회\n" +
+                            "\n총 틀린 단어: " + statistic[1] + "개\n"+
+                            "\n총 벌금: " + statistic[3] + "원\n"+
+                            "\n총 미납금: " + statistic[4] +"원\n");
+                    builder.setNegativeButton("닫기", null);
+                    builder.create().show();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }

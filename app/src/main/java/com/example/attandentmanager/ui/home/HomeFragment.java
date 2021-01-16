@@ -1,6 +1,8 @@
 package com.example.attandentmanager.ui.home;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,7 @@ import com.example.attandentmanager.R;
 import com.example.attandentmanager.SQLiteHelper;
 import com.example.attandentmanager.StudentInfo;
 import com.example.attandentmanager.ModifyAttend;
+import com.example.attandentmanager.StudentProfile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,15 +41,17 @@ public class HomeFragment extends Fragment {
     AttendListViewAdapter adapter;
     ArrayList<StudentInfo> studentInfoList = new ArrayList<>();
 
-    //DBHelper dbHelper;
     SQLiteHelper dbHelper;
 
     SharedPreferences fine;
+    SharedPreferences prefs;
 
     String today;
     String selected;
+    String h_selected;
     Calendar myCalendar = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    SimpleDateFormat h_sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,15 +63,18 @@ public class HomeFragment extends Fragment {
         //오늘날짜
 
         today = sdf.format(Calendar.getInstance(Locale.getDefault()).getTime());
+        h_selected = h_sdf.format(Calendar.getInstance(Locale.getDefault()).getTime());
 
         fine = getActivity().getSharedPreferences("Fine", getActivity().MODE_PRIVATE); //저장된 벌금 파일
-
+        prefs = getActivity().getSharedPreferences("Pref", getActivity().MODE_PRIVATE);
         // 액션바
         ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
-        ab.setTitle(today + " 출결");
+        ab.setTitle(h_selected + " 출결");
 
         dbHelper = new SQLiteHelper(getActivity()).getInstance(getActivity());
         dbHelper.open();
+
+        checkFirstRun();
 
         studentInfoList = dbHelper.loadAttendByDate(today);
 
@@ -81,7 +90,6 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("name", studentInfoList.get(i).getName());
                 intent.putExtra("today", today);
                 index = i;
-                //HomeFragment hf = new HomeFragment();
                 startActivityForResult(intent, 1000);
             }
         });
@@ -140,7 +148,6 @@ public class HomeFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
-        //프레그먼트간 통신
         if(requestCode == 05){
             studentInfoList = dbHelper.loadAttendByDate(today);
             adapter.setListViewItemList(studentInfoList);
@@ -155,16 +162,46 @@ public class HomeFragment extends Fragment {
             myCalendar.set(Calendar.MONTH, month);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             selected = sdf.format(myCalendar.getTime());
+            h_selected = h_sdf.format(myCalendar.getTime());
             showSelectedAttend();
         }
     };
 
     public void showSelectedAttend(){
         ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
-        ab.setTitle(selected + " 출결");
+        ab.setTitle(h_selected + " 출결");
         studentInfoList = dbHelper.loadAttendByDate(selected);
         adapter.setListViewItemList(studentInfoList);
         adapter.notifyDataSetChanged();
     }
+
+
+    //앱 초기 실행 확인
+    public void checkFirstRun(){
+        boolean isFirstRun = prefs.getBoolean("isFirstRun",true);
+        if(isFirstRun)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(
+                    "\n출결벌 어플은 소규모 단어스터디를 위한 어플입니다.\n" +
+                    "틀린 단어, 지각, 결석에 각각 벌금이 있습니다.\n" +
+                    "초기 벌금은 출석 100원, 지각 1분 100분, 무단 결석 10000원, 예고결석 0원으로 설정되어 있으며, 설정 메뉴에서 변경할 수 있습니다. \n" +
+                    "기타 사용법은 설정 메뉴에서 확인하세요.");
+            builder.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.setTitle("출결벌 어플에 관하여"); // dialog  Title
+            alert.show();
+
+            dbHelper.insertProfile(today, "김영희");
+            dbHelper.insertProfile(today, "이철수");
+            prefs.edit().putBoolean("isFirstRun", false).apply();
+        }
+    }
+
 
 }

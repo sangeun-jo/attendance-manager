@@ -85,8 +85,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
 
-    public void modifyName(String af_name, String bf_name){
-        mDb.execSQL("UPDATE names SET name = '" + af_name + "' WHERE name = '" + bf_name+ "';");
+    public void modifyName(String new_name, String old_name){ // 새 이름/ 기존이름
+        mDb.execSQL("UPDATE attend SET name = '" + new_name + "' WHERE name = '" + old_name+ "';");
+        mDb.execSQL("UPDATE profile SET name = '" + new_name + "' WHERE name = '" + old_name+ "';");
     }
 
     //학생 프로필 불러오기
