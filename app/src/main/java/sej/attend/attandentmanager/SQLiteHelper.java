@@ -147,6 +147,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return studentAllData;
     }
 
+    public StudentInfo cash(String date, String name){
+        Cursor cursor = null;
+        StudentInfo student = new StudentInfo(date, name, 0, 0, 0,0, 0);
+        String sql = "SELECT * FROM attend WHERE (date = ? and name = ?);";
+        if(cursor != null && cursor.isClosed()){
+            cursor.close();
+        }
+        cursor = mDb.rawQuery(sql, new String[] {date, name});
+        if(cursor.getCount() > 0) { //없으면 생성하기
+            cursor.moveToNext();
+            student.changeState(cursor.getInt(2));
+            student.setLateMinutes(cursor.getInt(3));
+            student.setWrongWords(cursor.getInt(4));
+            student.setFine(cursor.getInt(5));
+        }
+        cursor.close();
+        return student;
+    }
+
     // 오늘 출석 데이터 반환
     public ArrayList<StudentInfo>loadAttendByDate(String today){
 

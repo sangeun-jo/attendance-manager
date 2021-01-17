@@ -30,6 +30,8 @@ public class ModifyAttend extends AppCompatActivity {
     EditText inputFine;
     SharedPreferences fine;
 
+    //SQLiteHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +42,17 @@ public class ModifyAttend extends AppCompatActivity {
         lateTime =findViewById(R.id.late_time);
         inputFine = findViewById(R.id.input_fine);
 
+        //dbHelper = new SQLiteHelper(this).getInstance(this);
+        //dbHelper.open();
+
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
-
-
+        
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         today = intent.getStringExtra("today");
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle(name+ " 씨의 출결 기록");
-
-        
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
         radioGroup.setOnCheckedChangeListener(radioListener);
