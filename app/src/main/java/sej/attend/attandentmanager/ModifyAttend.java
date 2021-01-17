@@ -1,4 +1,4 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +50,7 @@ public class ModifyAttend extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle(name+ " 씨의 출결 기록");
 
+        
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
         radioGroup.setOnCheckedChangeListener(radioListener);
@@ -124,7 +125,7 @@ public class ModifyAttend extends AppCompatActivity {
                 result.putExtra("state", state);
                 result.putExtra("late", late);
                 result.putExtra("word", word);
-                result.putExtra("inputFine", money);
+                result.putExtra("money", money);
 
                 setResult(03, result);
 

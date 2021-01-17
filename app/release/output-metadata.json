@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.attandentmanager",
+  "applicationId": "sej.attend.attandentmanager",
   "variantName": "release",
   "elements": [
     {

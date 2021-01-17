@@ -1,7 +1,8 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 
 import android.os.Bundle;
 
+import sej.attend.attandentmanager.R;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBar;

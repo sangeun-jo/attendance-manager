@@ -1,4 +1,4 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 import android.content.Context;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import sej.attend.attandentmanager.R;
 
 import java.util.ArrayList;
 

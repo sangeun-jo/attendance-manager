@@ -1,4 +1,4 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -230,13 +230,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             studentInfo.setDebt(studentInfo.getFine() - money); //미납
         }
 
+
         mDb.execSQL(sql, new String[] {
                 Integer.toString(studentInfo.getState()),
                 Integer.toString(studentInfo.getLateMinutes()),
                 Integer.toString(studentInfo.getWrongWords()),
                 Integer.toString(studentInfo.getFine()),
                 Integer.toString(studentInfo.getDebt()),
-                studentInfo.getDate(), studentInfo.getName()});
+                studentInfo.getDate(), studentInfo.getName()
+        });
     }
 
 

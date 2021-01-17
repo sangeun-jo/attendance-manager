@@ -1,10 +1,12 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.LinearLayout;
+
+import sej.attend.attandentmanager.R;
 
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
 

@@ -1,4 +1,4 @@
-package com.attend.attandentmanager.ui.setting;
+package sej.attend.attandentmanager.ui.setting;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,9 +16,9 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.attend.attandentmanager.ChangeFine;
-import com.attend.attandentmanager.R;
-import com.attend.attandentmanager.SQLiteHelper;
+import sej.attend.attandentmanager.ChangeFine;
+import sej.attend.attandentmanager.R;
+import sej.attend.attandentmanager.SQLiteHelper;
 
 public class SettingFragment extends Fragment {
 

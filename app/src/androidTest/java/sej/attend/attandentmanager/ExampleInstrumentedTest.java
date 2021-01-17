@@ -1,4 +1,4 @@
-package com.attend.attandentmanager;
+package sej.attend.attandentmanager;
 
 import android.content.Context;
 

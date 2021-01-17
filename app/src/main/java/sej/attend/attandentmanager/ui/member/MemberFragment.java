@@ -1,7 +1,8 @@
-package com.attend.attandentmanager.ui.member;
+package sej.attend.attandentmanager.ui.member;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -21,12 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-import com.attend.attandentmanager.MainActivity;
-import com.attend.attandentmanager.MemberListViewAdapter;
-import com.attend.attandentmanager.R;
-import com.attend.attandentmanager.SQLiteHelper;
-import com.attend.attandentmanager.StudentInfo;
-import com.attend.attandentmanager.StudentProfile;
+import sej.attend.attandentmanager.MainActivity;
+import sej.attend.attandentmanager.MemberListViewAdapter;
+import sej.attend.attandentmanager.R;
+import sej.attend.attandentmanager.SQLiteHelper;
+import sej.attend.attandentmanager.StudentInfo;
+import sej.attend.attandentmanager.StudentProfile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class MemberFragment extends Fragment {
     CheckBox checkBox;
     ActionMode mActionMode;
     ActionBar ab;
-
+    SharedPreferences fine;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_member, container, false);
@@ -51,6 +52,7 @@ public class MemberFragment extends Fragment {
         setHasOptionsMenu(true); // 점 세개 메뉴 프레그먼트 보여주기
 
         dbHelper = new SQLiteHelper(getActivity()).getInstance(getActivity());
+        fine = getActivity().getSharedPreferences("Fine", getActivity().MODE_PRIVATE); //저장된 벌금 파일
 
         ab = ((MainActivity)getActivity()).getSupportActionBar();
 
@@ -132,8 +134,14 @@ public class MemberFragment extends Fragment {
         int allLate = 0; //지각 분
         int allWrong = 0;//틀린단어
         int allFine = 0;  // 벌금
-        int allAbsent = 0; // 결석횟수
+        int allFreeAbsent = 0; // 무단결
+        int allPlanAbsent = 0;// 예고결
         int allDebt = 0; // 미납
+
+        int late = fine.getInt("fineForWord", 100);
+        int word = fine.getInt("fineForLate", 100);
+        int free_absent = fine.getInt("free_absent", 10000);
+        int plan_absent = fine.getInt("plan_absent", 0);
 
         int state = 0;
 
@@ -141,17 +149,22 @@ public class MemberFragment extends Fragment {
             state = student.get(i).getState();
             allWrong += student.get(i).getWrongWords();
             allLate += student.get(i).getLateMinutes();
-            allFine += student.get(i).getFine();
             allDebt += student.get(i).getDebt();
-            if(state == 3 || state == 4){
-                allAbsent++;
+            if(state == 3){
+                allFreeAbsent++;
+            }
+            if (state == 4){
+                allPlanAbsent++;
             }
             if(state == 1){
                 allAttend++;
             }
+
+            allFine = allWrong * word + allLate * late + allFreeAbsent * free_absent + allPlanAbsent * plan_absent;
+
         }
 
-        int[] values = {allAttend, allWrong, allLate, allAbsent, allFine, allDebt};
+        int[] values = {allAttend, allWrong, allLate, allFreeAbsent, allPlanAbsent, allFine, allDebt};
 
         return values;
     }
@@ -261,12 +274,13 @@ public class MemberFragment extends Fragment {
                     int [] statistic = calStatistic(student);
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("출결 통계");
+
                     builder.setMessage("\n총 출석: " + statistic[0] + "회\n" +
                             "\n총 지각: " + statistic[2] + "분\n"+
-                            "\n총 결석: " + statistic[3] + "회\n" +
+                            "\n총 결석: " + (statistic[3] + statistic[4]) + "회\n" +
                             "\n총 틀린 단어: " + statistic[1] + "개\n"+
-                            "\n총 벌금: " + statistic[3] + "원\n"+
-                            "\n총 미납금: " + statistic[4] +"원\n");
+                            "\n총 벌금: " + statistic[5] + "원\n"+
+                            "\n총 미납금: " + statistic[6] +"원\n");
                     builder.setNegativeButton("닫기", null);
                     builder.create().show();
                 }

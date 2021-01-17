@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.example.attandentmanager"
+        applicationId "sej.attend.attandentmanager"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

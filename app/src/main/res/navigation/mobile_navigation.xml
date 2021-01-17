@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.attend.attandentmanager.ui.home.HomeFragment"
+        android:name="sej.attend.attandentmanager.ui.home.HomeFragment"
         android:label="출결"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_member"
-        android:name="com.attend.attandentmanager.ui.member.MemberFragment"
+        android:name="sej.attend.attandentmanager.ui.member.MemberFragment"
         android:label="멤버"
         tools:layout="@layout/fragment_member" />
 
     <fragment
         android:id="@+id/nav_setting"
-        android:name="com.attend.attandentmanager.ui.setting.SettingFragment"
+        android:name="sej.attend.attandentmanager.ui.setting.SettingFragment"
         android:label="설정"
         tools:layout="@layout/fragment_setting" />
 

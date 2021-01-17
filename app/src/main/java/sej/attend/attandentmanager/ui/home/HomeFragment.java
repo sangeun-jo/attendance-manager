@@ -1,4 +1,4 @@
-package com.attend.attandentmanager.ui.home;
+package sej.attend.attandentmanager.ui.home;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -15,17 +15,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-import com.attend.attandentmanager.AttendListViewAdapter;
-import com.attend.attandentmanager.MainActivity;
-import com.attend.attandentmanager.R;
-import com.attend.attandentmanager.SQLiteHelper;
-import com.attend.attandentmanager.StudentInfo;
-import com.attend.attandentmanager.ModifyAttend;
+import sej.attend.attandentmanager.AttendListViewAdapter;
+import sej.attend.attandentmanager.MainActivity;
+import sej.attend.attandentmanager.R;
+import sej.attend.attandentmanager.SQLiteHelper;
+import sej.attend.attandentmanager.StudentInfo;
+import sej.attend.attandentmanager.ModifyAttend;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -123,12 +124,6 @@ public class HomeFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void updateList(int state, int late, int word, int money){
-        //insertDB(index, state, late, word, money);
-        adapter.setListViewItemList(studentInfoList);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
