@@ -45,16 +45,52 @@ public class ModifyAttend extends AppCompatActivity {
         //dbHelper = new SQLiteHelper(this).getInstance(this);
         //dbHelper.open();
 
+
+
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
-        
+
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         today = intent.getStringExtra("today");
+
+
+        int e_late = intent.getIntExtra("e_late", 0);
+        int e_word = intent.getIntExtra("e_word", 0);
+
+        if(e_late != 0){
+            lateTime.setText(Integer.toString(e_late));
+        }
+        if (e_word != 0){
+            wrongWord.setText(Integer.toString(e_word));
+        }
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle(name+ " 씨의 출결 기록");
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
+
+        int e_state = intent.getIntExtra("e_state", 0);
+        System.out.println("상태: " + e_state);
+        if(e_state == 2){
+            radioGroup.check(R.id.late);
+            wrongWord.setVisibility(View.VISIBLE);
+            lateTime.setVisibility(View.VISIBLE);
+            lateTime.setClickable(true);
+        } else if(e_state == 3){
+            radioGroup.check(R.id.ab_0);
+            wrongWord.setVisibility(View.INVISIBLE);
+            lateTime.setVisibility(View.INVISIBLE);
+            wrongWord.setClickable(false);
+            lateTime.setClickable(false);
+
+        } else if(e_state == 4){
+            radioGroup.check(R.id.ab_1);
+            wrongWord.setVisibility(View.INVISIBLE);
+            lateTime.setVisibility(View.INVISIBLE);
+            wrongWord.setClickable(false);
+            lateTime.setClickable(false);
+        }
+
         radioGroup.setOnCheckedChangeListener(radioListener);
 
         ab.setDisplayHomeAsUpEnabled(true); //백버튼
@@ -70,20 +106,26 @@ public class ModifyAttend extends AppCompatActivity {
                 lateTime.setVisibility(View.INVISIBLE);
                 lateTime.setClickable(false);
                 wrongWord.setClickable(true);
+                lateTime.setText("");
             } else if(i == R.id.late){
                 wrongWord.setVisibility(View.VISIBLE);
                 lateTime.setVisibility(View.VISIBLE);
                 lateTime.setClickable(true);
+
             } else if(i == R.id.ab_0){
                 wrongWord.setVisibility(View.INVISIBLE);
                 lateTime.setVisibility(View.INVISIBLE);
                 wrongWord.setClickable(false);
                 lateTime.setClickable(false);
+                wrongWord.setText("");
+                lateTime.setText("");
             }else{
                 wrongWord.setVisibility(View.INVISIBLE);
                 lateTime.setVisibility(View.INVISIBLE);
                 lateTime.setClickable(false);
                 wrongWord.setClickable(false);
+                wrongWord.setText("");
+                lateTime.setText("");
             }
         }
     };

@@ -86,8 +86,14 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //새 액티비티 열기
                 Intent intent = new Intent(getActivity(), ModifyAttend.class);
+
                 intent.putExtra("name", studentInfoList.get(i).getName());
                 intent.putExtra("today", today);
+
+                intent.putExtra("e_state", studentInfoList.get(i).getState());
+                intent.putExtra("e_late", studentInfoList.get(i).getLateMinutes());
+                intent.putExtra("e_word", studentInfoList.get(i).getWrongWords());
+
                 index = i;
                 startActivityForResult(intent, 1000);
             }
@@ -178,7 +184,7 @@ public class HomeFragment extends Fragment {
             builder.setMessage(
                     "\n출결벌 어플은 소규모 단어스터디를 위한 어플입니다.\n" +
                     "틀린 단어, 지각, 결석에 각각 벌금이 있습니다.\n" +
-                    "초기 벌금은 출석 100원, 지각 1분 100분, 무단 결석 10000원, 예고결석 0원으로 설정되어 있으며, 설정 메뉴에서 변경할 수 있습니다. \n" +
+                    "초기 벌금은 틀린 단어 1개 100원, 지각 1분 100원, 무단 결석 10000원, 예고결석 0원으로 설정되어 있으며, 설정 메뉴에서 변경할 수 있습니다. \n" +
                     "기타 사용법은 설정 메뉴에서 확인하세요.");
             builder.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                 @Override
