@@ -88,12 +88,12 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ModifyAttend.class);
 
                 intent.putExtra("name", studentInfoList.get(i).getName());
-                intent.putExtra("today", today);
+                intent.putExtra("selected", selected);
 
                 intent.putExtra("e_state", studentInfoList.get(i).getState());
                 intent.putExtra("e_late", studentInfoList.get(i).getLateMinutes());
                 intent.putExtra("e_word", studentInfoList.get(i).getWrongWords());
-
+                intent.putExtra("e_money", studentInfoList.get(i).getMoney());
                 index = i;
                 startActivityForResult(intent, 1000);
             }
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment {
             int money = data.getIntExtra("money", 0);
 
             dbHelper.modifyAttend(studentInfoList.get(index), fine, state, late, word, money);
-            studentInfoList = dbHelper.loadAttendByDate(today);
+            studentInfoList = dbHelper.loadAttendByDate(selected);
             adapter.setListViewItemList(studentInfoList);
             adapter.notifyDataSetChanged();
         }

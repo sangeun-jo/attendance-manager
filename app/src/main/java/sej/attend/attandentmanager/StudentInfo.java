@@ -14,18 +14,18 @@ public class StudentInfo {
     private int lateMinutes = 0;
     private int wrongWordsNum = 0;
     private int fine = 0;
-    private int debt = 0;
+    private int money = 0;
 
     public StudentInfo(){}
 
-    public StudentInfo(String date, String name, int state, int late, int word, int fine, int debt){
+    public StudentInfo(String date, String name, int state, int late, int word, int fine, int money){
         this.date = date;
         this.name = name;
         this.state = state;
         lateMinutes = late;
         wrongWordsNum = word;
         this.fine = fine;
-        this.debt = debt;
+        this.money = money;
     }
 
     public  void changeName(String name) { this.name = name; }
@@ -42,11 +42,9 @@ public class StudentInfo {
         lateMinutes = m;
     }
 
-    public void setDate(String date){this.date = date; }
-
     public void setFine(int fine){ this.fine = fine; }
 
-    public void setDebt(int debt) { this.debt = debt; }
+    public void setMoney(int money) { this.money = money; }
 
     public String getDate() { return  this.date; }
 
@@ -68,7 +66,7 @@ public class StudentInfo {
 
     public int getFine(){ return fine; }
 
-    public int getDebt(){ return debt; }
+    public int getMoney(){ return money; }
 
     public void chageLateMinutes(int i) {
     }

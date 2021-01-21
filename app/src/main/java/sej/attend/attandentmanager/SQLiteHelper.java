@@ -45,7 +45,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE attend (date TEXT, name TEXT, state INTEGER, late INTEGER, word INTEGER, fine INTEGER, debt INTEGER);");
+        db.execSQL("CREATE TABLE attend (date TEXT, name TEXT, state INTEGER, late INTEGER, word INTEGER, fine INTEGER, money INTEGER);");
         db.execSQL("CREATE TABLE profile (regiDate TEXT, name TEXT);");
     }
 
@@ -55,8 +55,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS profile");
     }
 
-    public void insertAttend(String date, String name, int state, int late, int word, int fine, int debt){
-        String sql = "INSERT INTO attend VALUES('" + date + "','" + name + "','" +  state + "','" + late + "','" + word + "','" + fine +  "','" + debt +  "');";
+    public void insertAttend(String date, String name, int state, int late, int word, int fine, int money){
+        String sql = "INSERT INTO attend VALUES('" + date + "','" + name + "','" +  state + "','" + late + "','" + word + "','" + fine +  "','" + money +  "');";
         mDb.execSQL(sql);
     }
 
@@ -176,9 +176,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         for(int i = 0; i < pro.size() ; i++){
             String sql = "SELECT * FROM attend WHERE (date = ? and name = ?);";
-            if(cursor != null && cursor.isClosed()){
-                cursor.close();
-            }
+            //if(cursor != null && cursor.isClosed()){
+            //    cursor.close();
+            //}
             cursor = mDb.rawQuery(sql, new String[] {today, pro.get(i).getName()});
 
             if(cursor.getCount() <= 0) { //없으면 생성하기
@@ -192,6 +192,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 student.setLateMinutes(cursor.getInt(3));
                 student.setWrongWords(cursor.getInt(4));
                 student.setFine(cursor.getInt(5));
+                student.setMoney(cursor.getInt(6));
                 studentInfoList.add(student);
             }
             cursor.close();
@@ -202,7 +203,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public void modifyAttend(StudentInfo studentInfo, SharedPreferences fine, int state, int late, int word, int money){
 
-        String sql = "UPDATE attend SET state = ?, late = ?, word = ?, fine = ?, debt = ? WHERE (date = ? and name = ?);";
+        String sql = "UPDATE attend SET state = ?, late = ?, word = ?, fine = ?, money = ? WHERE (date = ? and name = ?);";
 
         int fineForWord = fine.getInt("fineForWord", 100);
         int fineForLate = fine.getInt("fineForLate", 100);
@@ -246,7 +247,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         studentInfo.setFine(all_fine);
 
         if (money >= 0) {
-            studentInfo.setDebt(studentInfo.getFine() - money); //미납
+            studentInfo.setMoney(money); //낸 돈
+            System.out.println("디비 헬퍼에서 저장: " + studentInfo.getMoney());
         }
 
 
@@ -255,7 +257,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Integer.toString(studentInfo.getLateMinutes()),
                 Integer.toString(studentInfo.getWrongWords()),
                 Integer.toString(studentInfo.getFine()),
-                Integer.toString(studentInfo.getDebt()),
+                Integer.toString(studentInfo.getMoney()),
                 studentInfo.getDate(), studentInfo.getName()
         });
     }
@@ -263,7 +265,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public void ResetRecode(StudentInfo studentInfo){
 
-        String sql = "UPDATE attend SET state = 0, late = 0, word = 0, fine = 0, debt = 0 WHERE (date = ? and name = ?);";
+        String sql = "UPDATE attend SET state = 0, late = 0, word = 0, fine = 0, money = 0 WHERE (date = ? and name = ?);";
 
 
         mDb.execSQL(sql, new String[]{

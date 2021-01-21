@@ -136,7 +136,7 @@ public class MemberFragment extends Fragment {
         int allFine = 0;  // 벌금
         int allFreeAbsent = 0; // 무단결
         int allPlanAbsent = 0;// 예고결
-        int allDebt = 0; // 미납
+        int allMoney = 0; // 총 납부
 
         int late = fine.getInt("fineForWord", 100);
         int word = fine.getInt("fineForLate", 100);
@@ -149,7 +149,7 @@ public class MemberFragment extends Fragment {
             state = student.get(i).getState();
             allWrong += student.get(i).getWrongWords();
             allLate += student.get(i).getLateMinutes();
-            allDebt += student.get(i).getDebt();
+            allMoney += student.get(i).getMoney();
             if(state == 3){
                 allFreeAbsent++;
             }
@@ -164,7 +164,7 @@ public class MemberFragment extends Fragment {
 
         }
 
-        int[] values = {allAttend, allWrong, allLate, allFreeAbsent, allPlanAbsent, allFine, allDebt};
+        int[] values = {allAttend, allWrong, allLate, allFreeAbsent, allPlanAbsent, allFine, allMoney};
 
         return values;
     }
@@ -280,7 +280,7 @@ public class MemberFragment extends Fragment {
                             "\n총 결석: " + (statistic[3] + statistic[4]) + "회\n" +
                             "\n총 틀린 단어: " + statistic[1] + "개\n"+
                             "\n총 벌금: " + statistic[5] + "원\n"+
-                            "\n총 미납금: " + statistic[6] +"원\n");
+                            "\n총 미납금: " + (statistic[5] - statistic[6]) +"원\n");
                     builder.setNegativeButton("닫기", null);
                     builder.create().show();
                 }

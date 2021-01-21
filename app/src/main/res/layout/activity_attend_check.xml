@@ -118,7 +118,6 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 android:visibility="invisible"
-                android:clickable="false"
                 android:layout_weight="2"/>
 
             <TextView

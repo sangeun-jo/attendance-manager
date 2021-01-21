@@ -30,8 +30,6 @@ public class ModifyAttend extends AppCompatActivity {
     EditText inputFine;
     SharedPreferences fine;
 
-    //SQLiteHelper dbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,26 +40,24 @@ public class ModifyAttend extends AppCompatActivity {
         lateTime =findViewById(R.id.late_time);
         inputFine = findViewById(R.id.input_fine);
 
-        //dbHelper = new SQLiteHelper(this).getInstance(this);
-        //dbHelper.open();
-
-
-
         fine = getSharedPreferences("Fine", MODE_PRIVATE); //저장된 벌금 파일
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         today = intent.getStringExtra("today");
-
-
         int e_late = intent.getIntExtra("e_late", 0);
         int e_word = intent.getIntExtra("e_word", 0);
+        int e_money = intent.getIntExtra("e_money", 0);
+        System.out.println("액티비티에서 머니 받음:" + e_money);
 
         if(e_late != 0){
             lateTime.setText(Integer.toString(e_late));
         }
         if (e_word != 0){
             wrongWord.setText(Integer.toString(e_word));
+        }
+        if (e_money != 0){
+            inputFine.setText(Integer.toString(e_money));
         }
 
         ActionBar ab = getSupportActionBar();
