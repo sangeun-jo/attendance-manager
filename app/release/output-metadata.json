@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "sej.attend.attandentmanager",
-  "variantName": "release",
+  "variantName": "processReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 4,
+      "versionCode": 5,
       "versionName": "2.0.3",
-      "enabled": true,
       "outputFile": "app-release.apk"
     }
   ]

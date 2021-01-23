@@ -102,6 +102,7 @@ public class MemberFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = et.getText().toString();
                         dbHelper.insertProfile(today, name); //이름 중복 문제 해결 필요
+                        dbHelper.insertAttend(today, name, 0, 0, 0, 0, 0);
                         StudentProfile profile = new StudentProfile(today, name);
                         studentList.add(profile);
                         adapter.setMemberListViewItemList(studentList) ;

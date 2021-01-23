@@ -140,14 +140,14 @@ public class HomeFragment extends Fragment {
             int late = data.getIntExtra("late", 0);
             int word = data.getIntExtra("word", 0);
             int money = data.getIntExtra("money", 0);
-
+            //String date = data.getStringExtra("date");
             dbHelper.modifyAttend(studentInfoList.get(index), fine, state, late, word, money);
-            studentInfoList = dbHelper.loadAttendByDate(selected);
+            //studentInfoList = dbHelper.loadAttendByDate(date);
             adapter.setListViewItemList(studentInfoList);
             adapter.notifyDataSetChanged();
         }
 
-        if(requestCode == 05){
+        if(resultCode == 05){
             studentInfoList = dbHelper.loadAttendByDate(today);
             adapter.setListViewItemList(studentInfoList);
             adapter.notifyDataSetChanged();

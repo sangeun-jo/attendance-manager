@@ -63,7 +63,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void insertProfile(String regiDate, String name){
         String sql = "INSERT INTO profile VALUES('" + regiDate + "','" + name + "');";
         mDb.execSQL(sql);
-        insertAttend(regiDate, name, 0, 0, 0, 0, 0);
+        //insertAttend(regiDate, name, 0, 0, 0, 0, 0);
     }
 
     public void deleteAll(){ //모든 데이터 삭제
@@ -176,9 +176,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         for(int i = 0; i < pro.size() ; i++){
             String sql = "SELECT * FROM attend WHERE (date = ? and name = ?);";
-            //if(cursor != null && cursor.isClosed()){
-            //    cursor.close();
-            //}
+            if(cursor != null && cursor.isClosed()){
+                cursor.close();
+            }
             cursor = mDb.rawQuery(sql, new String[] {today, pro.get(i).getName()});
 
             if(cursor.getCount() <= 0) { //없으면 생성하기
@@ -248,7 +248,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         if (money >= 0) {
             studentInfo.setMoney(money); //낸 돈
-            System.out.println("디비 헬퍼에서 저장: " + studentInfo.getMoney());
         }
 
 

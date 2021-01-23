@@ -166,6 +166,7 @@ public class ModifyAttend extends AppCompatActivity {
                 result.putExtra("late", late);
                 result.putExtra("word", word);
                 result.putExtra("money", money);
+                result.putExtra("date", today);
 
                 setResult(03, result);
 
